@@ -18,12 +18,12 @@ class OneHotWrapper(TransformerMixin):
         self.transformer = OneHotEncoder()
         
     def fit(self, X, y=None):
-        encoded = self.encoder.fit_transform(X).reshape(-1, 1)
-        return self.transformer.fit(encoded)
+        encoded = self.encoder.fit_transform(X)
+        return self.transformer.fit(encoded.reshape(-1, 1))
     
     def transform(self, X, y=None):
-        encoded = self.encoder.transform(X).reshape(-1, 1)
-        return self.transformer.transform(encoded)
+        encoded = self.encoder.transform(X)
+        return self.transformer.transform(encoded.reshape(-1, 1))
     
     def get_feature_names(self):
         return self.encoder.classes_
@@ -33,10 +33,10 @@ class MinMaxWrapper(TransformerMixin):
         self.transformer = MinMaxScaler()
         
     def fit(self, X, y=None):
-        return self.transformer.fit(X.reshape(-1, 1))
+        return self.transformer.fit(X.values.reshape(-1, 1))
     
     def transform(self, X, y=None):
-        return self.transformer.transform(X.reshape(-1, 1))
+        return self.transformer.transform(X.values.reshape(-1, 1))
 
 class ItemSelector(TransformerMixin):
     def __init__(self, key):
